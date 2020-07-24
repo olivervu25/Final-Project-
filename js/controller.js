@@ -26,3 +26,15 @@ controller.register = (data) => {
         document.getElementById('confirm-password-error').innerText = ''
     }
 }
+controller.login = (data) => {
+    if (data.email===''){
+        document.getElementById('email-error').innerText = 'Please input your email'
+    } else {
+        document.getElementById('email-error').innerText = ''
+    }
+    if (data.password ===''){
+        document.getElementById('password-error').innerText = 'Please input your email'
+    } else {
+        document.getElementById('password-error').innerText = ''
+    }
+}
