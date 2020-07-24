@@ -1,7 +1,6 @@
 .register-container{
-    background: url(../images/register-background.jpg);
-    height: 100vh; 
-    background-size: cover; 
+    background: url(../images/register-background\ \(5\).jpg);
+    background-size: 75% 100%;
     display: flex;
     justify-content: flex-end; 
 }
@@ -16,9 +15,8 @@
     text-align: center; 
     margin-top: 50px;
     color: #333; 
-
 }
-.register-container .input-name-wrapper {
+.register-container .input-name-wrapper{
     display: flex; 
     justify-content: space-between;
 }

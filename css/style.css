@@ -22,6 +22,10 @@
 }
 .error { 
     color: #ff0000;
-    
-
+}
+#redirect-to-login{
+    cursor: pointer;
+}
+#redirect-to-register{
+    cursor: pointer;
 }
