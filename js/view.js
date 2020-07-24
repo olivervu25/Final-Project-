@@ -10,6 +10,7 @@ view.setActiveScreen = (screenName) => {
              const loginForm = document.getElementById('login-form')
              loginForm.addEventListener('submit',(event)=> {
                  event.preventDefault()
+                 loginForm.email.value = loginForm.email.value.trim() 
                  const data = {
                      email: loginForm.email.value,
                      password: loginForm.password.value
