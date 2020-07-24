@@ -32,7 +32,7 @@ components.registerScreen = `   <div class="register-container">
         <div class="error" id="confirm-password-error"></div>
     </div>
     <div class="form-action">
-        <span id="redirect-to-login">
+        <span id="redirect-to-login" onclick="goToLogin()">
             Already have an account? Log in
         </span>
         <button class="btn" type="submit">Register</button>
@@ -41,3 +41,27 @@ components.registerScreen = `   <div class="register-container">
 </form>    
 </div>
 </div>`
+
+components.loginScreen = `<div class="login-container">
+<div class="aside-right">
+    <div class="header">
+        <h3>Log In</h3>
+    </div>
+<form id="login-form" action="">
+    <div class="input-wrapper">
+        <input type="text" name="email" placeholder="Email...">
+        <div class="error" id="email-error"></div>
+    </div>
+    <div class="input-wrapper">
+        <input type="password" name="password" placeholder="Password...">
+        <div class="error" id="password-error"></div>
+    </div>
+    <div class="form-action">
+    <span id="redirect-to-register" onclick="goToRegister()">Don't have an account yet? Register</span>
+        <button class="btn" type="submit">Login</button>
+    </div>
+</form> 
+</div>
+</div>
+
+`
