@@ -11,11 +11,11 @@ components.registerScreen = `   <div class="register-container">
 <form id="register-form">
     <div class="input-name-wrapper">
         <div class="input-wrapper">
-            <input type="text" name="first-name" placeholder="First Name">
+            <input type="text" name="firstName" placeholder="First Name">
             <div class="error" id="first-name-error"></div>
         </div>
         <div class="input-wrapper">
-            <input type="text" name="last-name" placeholder="Last Name">
+            <input type="text" name="lastName" placeholder="Last Name">
             <div class="error" id="last-name-error"></div>
         </div>
     </div>
@@ -28,7 +28,7 @@ components.registerScreen = `   <div class="register-container">
         <div class="error" id="password-error"></div>
     </div>
     <div class="input-wrapper">
-        <input type="password" name="confirm-password" placeholder="Confirm Password">
+        <input type="password" name="confirmPassword" placeholder="Confirm Password">
         <div class="error" id="confirm-password-error"></div>
     </div>
     <div class="form-action">

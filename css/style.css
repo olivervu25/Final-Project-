@@ -20,3 +20,8 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.error { 
+    color: #ff0000;
+    
+
+}
