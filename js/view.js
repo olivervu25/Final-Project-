@@ -4,7 +4,20 @@ view.setActiveScreen = (screenName) => {
         case 'welcomeScreen':
             document.getElementById('app').innerHTML = components.welcomeScreen
         break;
-        case 'loginScreen': 
+        case 'loginScreen':
+            document.getElementById('app').innerHTML = components.loginScreen
+
+             const loginForm = document.getElementById('login-form')
+             loginForm.addEventListener('submit',(event)=> {
+                 event.preventDefault()
+                 const data = {
+                     email: loginForm.email.value,
+                     password: loginForm.password.value
+                 }
+                 console.log(data)
+                 controller.login(data)
+            })
+
         break;
         case 'registerScreen':
             document.getElementById('app').innerHTML = components.registerScreen
