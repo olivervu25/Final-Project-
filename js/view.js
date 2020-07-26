@@ -36,6 +36,9 @@ view.setActiveScreen = (screenName) => {
             controller.register(data)
         })
         break;
+        case 'chatScreen':
+            document.getElementById('app').innerHTML = components.chatScreen(model.currentUser.displayName)
+        break;
 
     }
 
