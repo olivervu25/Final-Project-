@@ -65,16 +65,40 @@ components.loginScreen = `<div class="login-container">
 </div>
 
 `
-components.chatScreen = (a) => {
-return (`
-<div class="welcome-container">
-<div class="welcome-user">
-    <h2>Welcome, ${a}! </h2>
+// components.chatScreen = (a) => {
+// return (`
+// <div class="welcome-container">
+// <div class="welcome-user">
+//     <h2>Welcome, ${a}! </h2>
+// </div>
+// <div class="welcome-slogan">
+//     <h3>Stay in touch with everyone everywhere!</h3>
+//     <h5>a good relationship starts from a good conversation or<br> communication so get connected and stay in touch <br> with people you care about.</h5>
+// </div>
+// </div>
+// `)
+// }
+components.chatScreen = `  <div class="chat-container">
+<div class="header">
+    MindX Chat
 </div>
-<div class="welcome-slogan">
-    <h3>Stay in touch with everyone everywhere!</h3>
-    <h5>a good relationship starts from a good conversation or<br> communication so get connected and stay in touch <br> with people you care about.</h5>
+<div class="main">
+    <div class="conversation-detail">
+        <div class="conversation-header">
+            First Conversation
+        </div>
+        <div class="list-messages">
+            
+
+        </div>
+        <form id="send-message-form">
+            <div class="input-wrapper">
+                <input type="text" name="message" placeholder="Type a message">
+            </div>
+            <button type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
 </div>
 </div>
-`)
-}
+`

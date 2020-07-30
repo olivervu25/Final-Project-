@@ -24,6 +24,14 @@ console.log(firebase.app().name);
 //         view.setActiveScreen('loginScreen');
 //     })
 //)
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    view.setActiveScreen('chatScreen')         
+  }
+});
+
 function goToRegister() {
     document.getElementById('redirect-to-register').style.color = "red";
     view.setActiveScreen('registerScreen')

@@ -38,3 +38,18 @@ model.login = async (data) => {
         }
     }
 }
+model.chatScreen = async(dataChat)=>{
+    try {
+        const noReload = await firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              // User is signed in.
+                view.setAtiveScreen('chatScreen');
+                // console.log(user);
+            }
+          });
+    }
+    catch(err) {
+        alert(err.message);
+    }
+}
+
