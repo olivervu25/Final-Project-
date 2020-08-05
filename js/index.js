@@ -13,24 +13,68 @@ const init = () => {
     appId: "1:998116278111:web:e08dc5710b1f15e48180ea"
   };
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-window.onload = init
-console.log(firebase.app().name);
+firebase.initializeApp(firebaseConfig);
+console.log(firebase.app().name)
 // document.addEventListener('click',function goToRegister () {
 //     view.setActiveScreen('registerScreen');
 // },
-//     document.addEventListener('click',function goToLogin() {
+//     document.addEven4sstListener('click',function goToLogin() {
 //         view.setActiveScreen('loginScreen');
 //     })
-//)
+// )
+// firestoreFunction()
+
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
+    if (user.emailVerified){
+      model.currentUser = {
+        displayName: user.displayName,
+        email: user.email
+      }
+      view.setActiveScreen('introScreen')         
+    } else {
+      view.setActiveScreen('loginScreen')
+      alert('Please verify your email first')
+    }
     // User is signed in.
-    view.setActiveScreen('chatScreen')         
+  } else {
+    view.setActiveScreen('loginScreen')
   }
-});
+})
+
+async function firestoreFunction (){
+  // get one document
+  const documentId = 'tb3ictuqkMcUtPBDRzHw'
+  // thử xem
+  const response = await firebase.firestore().collection('users').doc(documentId).get()
+  const user = getDataFromDoc(response)
+  console.log(user)
+  // user.id = response.id 
+  // console.log(user)
+  // get many documents
+  const response2 = await firebase.firestore().collection('users').where('age','==',20).get()
+  // console.log(response2)
+  const listUser = getDataFromDocs(response2.docs)
+  console.log(listUser)
+  // add document
+  const userToAdd = {
+    name: 'ABC',
+    age: 23,
+    email: 'abcxyz@gmail.com'
+  }
+  // firebase.firestore().collection('users').add(userToAdd)
+
+  // update document
+  documentIdUpdate = 'nSMkLTBSsltnUW74Kugb'
+  const dataToUpdate = {
+    name: 'Nguyễn Hải Phong'
+  }
+  firebase.firestore().collection('users').doc(documentIdUpdate).update(dataToUpdate)
+  //delete document
+  const docToDelete = 'tYzEg8dn0AtWdW3AUSAa'
+  firebase.firestore().collection('users').doc(docToDelete).delete()
+}
 
 function goToRegister() {
     document.getElementById('redirect-to-register').style.color = "red";
@@ -39,4 +83,18 @@ function goToRegister() {
 function goToLogin() {
     document.getElementById('redirect-to-login').style.color = "red";
     view.setActiveScreen('loginScreen')
+}
+function goToChat() {
+   document.getElementById('redirect-to-chat').style.color = "red";
+   view.setActiveScreen('chatScreen')
+}
+window.onload = init
+
+getDataFromDoc = (doc) => {
+  const data = doc.data() 
+  data.id = doc.id
+  return data
+}
+getDataFromDocs = (docs) => {
+  return docs.map(item => getDataFromDoc(item))  
 }

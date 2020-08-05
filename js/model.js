@@ -17,7 +17,7 @@ model.register = (data) => {
 }
 model.login = async (data) => {
     try {
-    const response = await firebase.auth().signInWithEmailAndPassword(data.email,data.password)
+        await firebase.auth().signInWithEmailAndPassword(data.email,data.password)
     console.log(response)
     if (response.user.emailVerified === false) {
         document.getElementById('email-error').innerText = 'Please verify your email first!'
@@ -27,7 +27,7 @@ model.login = async (data) => {
             displayName: response.user.displayName,
             email: response.user.email
         }
-        view.setActiveScreen('chatScreen')
+        view.setActiveScreen('introScreen')
     }
     } catch(err) {
         if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-email'){
@@ -38,18 +38,12 @@ model.login = async (data) => {
         }
     }
 }
-model.chatScreen = async(dataChat)=>{
-    try {
-        const noReload = await firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              // User is signed in.
-                view.setAtiveScreen('chatScreen');
-                // console.log(user);
-            }
-          });
+model.addMessage = (msg) => {
+    const documentIdAddMsg = 'Z1NJH2yrFkwYeuVHJj79'
+    const dataAddMsg = {
+      messages: firebase.firestore.FieldValue.arrayUnion(msg)
     }
-    catch(err) {
-        alert(err.message);
-    }
-}
-
+    firebase.firestore()
+      .collection('conversations').doc(documentIdAddMsg)
+      .update(dataAddMsg)
+};

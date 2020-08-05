@@ -36,22 +36,35 @@ view.setActiveScreen = (screenName) => {
             controller.register(data)
         })
         break;
+        case 'introScreen': 
+            document.getElementById('app').innerHTML = components.introScreen(model.currentUser.displayName)
+        break;
+
         case 'chatScreen':
             // document.getElementById('app').innerHTML = components.chatScreen(model.currentUser.displayName)
             document.getElementById('app').innerHTML = components.chatScreen
             const sendMessageForm = document.getElementById('send-message-form')
+            const listMessages =  view.getCurrentMessage();
+            listMessages.then((response)=> {
+                for (let i=0; i<response.length;i++){
+                    view.addMessage(response[i])
+                }
+            })
             sendMessageForm.addEventListener('submit', (e) => {
                 e.preventDefault()
                 const message = {
                     content: sendMessageForm.message.value.trim(),
-                    owner: model.currentUser.email
+                    owner: model.currentUser.email,
+                    creatAt: new Date().toISOString()
                 }
                 const botMsg = {
                     content:sendMessageForm.message.value.trim(),
                     owner: 'Bot'
                 }
                 view.addMessage(message)
+                model.addMessage(message)
                 view.addMessage(botMsg)
+                
                 sendMessageForm.message.value=''
             })
         break;
@@ -81,5 +94,14 @@ view.addMessage = (message) => {
         </div>`
     }}
     document.querySelector('.list-messages').appendChild(messageWrapper)
+
 }
-view.addMessage.innerHTML = ''
+
+view.getCurrentMessage = async () => {
+    const messages = await firebaseConfig.firestore().collection('conversations').get();
+    const listMessages = messages.docs[0].data().messages; 
+    return listMessages
+}
+
+
+
