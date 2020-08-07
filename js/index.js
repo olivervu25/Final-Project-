@@ -46,7 +46,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 async function firestoreFunction (){
   // get one document
   const documentId = 'tb3ictuqkMcUtPBDRzHw'
-  // thử xem
   const response = await firebase.firestore().collection('users').doc(documentId).get()
   const user = getDataFromDoc(response)
   console.log(user)

@@ -20,6 +20,7 @@ view.setActiveScreen = (screenName) => {
             })
 
         break;
+        
         case 'registerScreen':
             document.getElementById('app').innerHTML = components.registerScreen
         const registerForm = document.getElementById('register-form')
@@ -36,6 +37,7 @@ view.setActiveScreen = (screenName) => {
             controller.register(data)
         })
         break;
+
         case 'introScreen': 
             document.getElementById('app').innerHTML = components.introScreen(model.currentUser.displayName)
         break;
@@ -44,12 +46,14 @@ view.setActiveScreen = (screenName) => {
             // document.getElementById('app').innerHTML = components.chatScreen(model.currentUser.displayName)
             document.getElementById('app').innerHTML = components.chatScreen
             const sendMessageForm = document.getElementById('send-message-form')
-            const listMessages =  view.getCurrentMessage();
-            listMessages.then((response)=> {
-                for (let i=0; i<response.length;i++){
-                    view.addMessage(response[i])
-                }
-            })
+            // const listMessages =  view.getCurrentMessage();
+            // listMessages.then((response)=> {
+            //     for (let i=0; i<response.length;i++){
+            //         view.addMessage(response[i])
+            //     }
+            // })
+            model.loadConversations()     
+            model.listenConversationsChange()           
             sendMessageForm.addEventListener('submit', (e) => {
                 e.preventDefault()
                 const message = {
@@ -57,14 +61,10 @@ view.setActiveScreen = (screenName) => {
                     owner: model.currentUser.email,
                     creatAt: new Date().toISOString()
                 }
-                const botMsg = {
-                    content:sendMessageForm.message.value.trim(),
-                    owner: 'Bot'
-                }
-                view.addMessage(message)
-                model.addMessage(message)
-                view.addMessage(botMsg)
                 
+                // view.addMessage(message)
+                model.addMessage(message)
+                view.scrollToEndElement()
                 sendMessageForm.message.value=''
             })
         break;
@@ -97,11 +97,23 @@ view.addMessage = (message) => {
 
 }
 
-view.getCurrentMessage = async () => {
-    const messages = await firebaseConfig.firestore().collection('conversations').get();
-    const listMessages = messages.docs[0].data().messages; 
-    return listMessages
+// view.getCurrentMessage = async () => {
+//     const messages = await firebaseConfig.firestore().collection('conversations').get();
+//     const listMessages = messages.docs[0].data().messages; 
+//     return listMessages
+// }
+
+view.showCurrentConversation = () => { 
+    //đổi tên cuộc trò chuyện 
+    document.getElementsByClassName('conversation-header')[0].innerText = model.currentConversation.title
+    for (message of model.currentConversation.messages){
+        view.addMessage(message)
+    }
+    view.scrollToEndElement()
+
 }
 
-
-
+view.scrollToEndElement = () => { 
+    const element = document.querySelector('.list-messages')
+    element.scrollTop = element.scrollHeight 
+}
