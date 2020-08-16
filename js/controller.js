@@ -55,3 +55,24 @@ controller.login = (data) => {
             model.login(data)
         }
 }
+controller.createConversation = ({conversationTitle, conversationEmail}) => {
+    if(conversationTitle.trim() === '') {
+      view.setErrorMessage('conversation-name-error', 'Please input conversation name')
+    } else {
+        view.setErrorMessage('conversation-name-error','')
+    }
+    if(conversationEmail.trim() === '') {
+        view.setErrorMessage('conversation-email-error', 'Please input email')
+      } else {
+          view.setErrorMessage('conversation-email-error','')
+      }
+    if (conversationTitle.trim()!=='' && conversationEmail.trim() !==''){
+        const data = {
+            title: conversationTitle,
+            users: [conversationEmail,model.currentUser.email],
+            createAt: (new Date()).toISOString(),
+            messages:[]
+        }
+        model.createConversation(data)
+    }
+  }

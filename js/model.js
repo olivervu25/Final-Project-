@@ -1,7 +1,8 @@
 const model = {}
 model.currentUser = undefined
 model.conversations = undefined 
-model.currentConversation = undefined 
+model.currentConversation = undefined
+model.listUsers = undefined 
 model.collectionName = 'conversations'
 model.register = (data) => {
     firebase.auth()
@@ -43,12 +44,11 @@ model.login = async (data) => {
 }
 
 model.addMessage = (msg) => {
-    const documentIdAddMsg = 'Z1NJH2yrFkwYeuVHJj79'
     const dataAddMsg = {
       messages: firebase.firestore.FieldValue.arrayUnion(msg)
     }
     firebase.firestore()
-      .collection('conversations').doc(documentIdAddMsg)
+      .collection('conversations').doc(model.currentConversation.id)
       .update(dataAddMsg)
 };
 
@@ -59,6 +59,7 @@ model.loadConversations = async () => {
         model.currentConversation = model.conversations[0]
         view.showCurrentConversation() 
     }
+    view.showConversations() 
 }
 //Thay đổi dữ liệu tại local store cho thống nhất với Firebase 
 model.listenConversationsChange = () => {
@@ -71,15 +72,23 @@ model.listenConversationsChange = () => {
         const docChanges = res.docChanges()
         for (oneChange of docChanges){
             console.log(oneChange)
-            const type = oneChange.type 
+            const type = oneChange.type
+
             if (type === 'modified'){
                 const docData = getDataFromDoc(oneChange.doc)
                 console.log(docData)
-                for (let index = 0; index<model.conversations.length; index++){
+                console.log(model.currentConversation.users)
+                if (docData.users.length > model.currentConversation.users.length){
+                 view.addUser(docData.users[docData.users.length - 1])
+                }else {
+                    for (let index = 0; index<model.conversations.length; index++){
                     if (model.conversations[index].id === docData.id){
                         model.conversations[index] = docData
                     }
-                }
+
+                    }
+                    }
+            
                 //update model.currentConversation 
                 if (docData.id === model.currentConversation.id){
                     model.currentConversation = docData
@@ -88,7 +97,22 @@ model.listenConversationsChange = () => {
                     view.scrollToEndElement()
                 }
             }
+            if(type === 'added'){
+                const docData = getDataFromDoc(oneChange.doc)
+                model.conversations.push(docData)
+                view.addConversation(docData) 
+            }
 
         }
     }) 
+}
+model.createConversation = (data) => {
+    firebase.firestore().collection(model.collectionName).add(data)
+    view.setActiveScreen('chatScreen',true)
+}
+model.addUser = (data) => {
+    const userToAdd = { 
+        users: firebase.firestore.FieldValue.arrayUnion(data)
+    }
+    firebase.firestore().collection('conversations').doc(model.currentConversation.id).update(userToAdd)
 }

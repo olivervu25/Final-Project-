@@ -29,3 +29,19 @@
 #redirect-to-register{
     cursor: pointer;
 }
+.header{
+    text-align: center;
+    height: 64px; 
+    line-height: 64px;
+    color: #ffffff;
+    background-color: #037BFE;
+    font-size: 28px; 
+}
+.btn-light{
+    background: none; 
+    color: #333; 
+     
+}
+.aside-right .header {
+    background-color: #ffffff;
+}
