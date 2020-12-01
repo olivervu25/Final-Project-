@@ -12,6 +12,8 @@ const init = () => {
     messagingSenderId: "998116278111",
     appId: "1:998116278111:web:e08dc5710b1f15e48180ea"
   };
+
+
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 console.log(firebase.app().name)
@@ -42,6 +44,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     view.setActiveScreen('loginScreen')
   }
 })
+
 
 async function firestoreFunction (){
   // get one document
